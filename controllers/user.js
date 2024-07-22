@@ -77,3 +77,20 @@ exports.login = async (req, res) => {
     });
   }
 }
+
+exports.findAll = async (req, res) => {
+  try {
+    const users = await User.findAll();
+    res.status(200).send({
+      status: true,
+      message: "Success",
+      data: users
+    });
+  } catch (error) {
+    res.status(500).send({
+      status: false,
+      message: error.message || "Some error occurred while retrieving users.",
+      data: null
+    });
+  }
+}
