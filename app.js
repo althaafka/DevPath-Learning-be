@@ -1,25 +1,20 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('mysql2');
-const dbConfig = require('./config/db.config');
-
-const connection = mysql.createConnection({
-  host: dbConfig.HOST,
-  user: dbConfig.USER,
-  password: dbConfig.PASSWORD,
-  database: dbConfig.DB
-});
-
-connection.connect(error => {
-  if (error) throw error;
-  console.log("Successfully connected to the database.");
-});
+const db = require('./models');
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+db.sequelize.sync()
+  .then(() => {
+    console.log("Database synced.");
+  })
+  .catch((err) => {
+    console.log("Failed to sync database: " + err.message);
+  });
 
 require('./routes/routes')(app);
 
