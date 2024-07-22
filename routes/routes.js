@@ -1,5 +1,9 @@
 module.exports = app => {
-    app.get('/test', (req, res) => {
-        res.send('Hello World');
-    });
-}
+    const users = require("../controllers/user.js");
+    var router = require("express").Router();
+  
+    router.post("/register", users.create);
+  
+    app.use('/user', router);
+  };
+  
