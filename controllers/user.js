@@ -137,7 +137,7 @@ exports.update = async (req, res) => {
     if (!updated) {
       return res.status(404).send({
         status: false,
-        message: `User Not found with id ${userId}`,
+        message: "User Not found.",
         data: null
       });
     }
@@ -155,6 +155,37 @@ exports.update = async (req, res) => {
     res.status(500).send({
       status: false,
       message: error.message || "Some error occurred while updating user.",
+      data: null
+    });
+  }
+};
+
+// Delete user by ID
+exports.delete = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const deleted = await User.destroy({
+      where: { id: userId }
+    });
+
+    if (!deleted) {
+      return res.status(404).send({
+        status: false,
+        message: "User Not found.",
+        data: null
+      });
+    }
+
+    res.status(200).send({
+      status: true,
+      message: "User deleted successfully.",
+      data: null
+    });
+  } catch (error) {
+    res.status(500).send({
+      status: false,
+      message: error.message || "Some error occurred while deleting user.",
       data: null
     });
   }

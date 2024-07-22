@@ -10,6 +10,7 @@ router.post("/login", users.login);
 router.get("/", authenticate, authorize(['admin']), users.findAll);
 router.get("/:userId", authenticate, authorize(['self', 'admin']), users.findOne);
 router.put("/:userId", authenticate, authorize(['self', 'admin']), users.update);
+router.delete("/:userId", authenticate, authorize(['admin']), users.delete);
 
 module.exports = app => {
   app.use('/user', router);
