@@ -8,6 +8,7 @@ router.post("/register", users.create);
 router.post("/login", users.login);
 
 router.get("/", authenticate, authorize(['admin']), users.findAll);
+router.get("/:userId", authenticate, authorize(['self', 'admin']), users.findOne);
 
 module.exports = app => {
   app.use('/user', router);

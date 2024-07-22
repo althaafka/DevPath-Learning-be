@@ -94,3 +94,28 @@ exports.findAll = async (req, res) => {
     });
   }
 }
+
+exports.findOne = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.userId);
+    if (!user) {
+      return res.status(404).send({
+        status: false,
+        message: "User Not found.",
+        data: null
+      });
+    }
+    delete user.password
+    res.status(200).send({
+      status: true,
+      message: "Success",
+      data: user
+    });
+  } catch (error) {
+    res.status(500).send({
+      status: false,
+      message: error.message || "Some error occurred while retrieving user.",
+      data: null
+    });
+  }
+}
