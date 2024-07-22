@@ -119,3 +119,43 @@ exports.findOne = async (req, res) => {
     });
   }
 }
+
+// Update user by ID
+exports.update = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const updateData = { ...req.body };
+
+    if (updateData.password) {
+      updateData.password = await bcrypt.hash(updateData.password, 11);
+    }
+
+    const [updated] = await User.update(updateData, {
+      where: { id: userId }
+    });
+
+    if (!updated) {
+      return res.status(404).send({
+        status: false,
+        message: `User Not found with id ${userId}`,
+        data: null
+      });
+    }
+
+    const updatedUser = await User.findByPk(userId);
+    const userResponse = { ...updatedUser.toJSON() }; 
+    delete userResponse.password
+
+    res.status(200).send({
+      status: true,
+      message: "User updated successfully.",
+      data: userResponse
+    });
+  } catch (error) {
+    res.status(500).send({
+      status: false,
+      message: error.message || "Some error occurred while updating user.",
+      data: null
+    });
+  }
+};
