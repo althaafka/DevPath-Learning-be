@@ -1,5 +1,6 @@
 const authorize = (roles) => {
     return (req, res, next) => {
+      console.log(req.userRole);
       const userRole = req.userRole;
       const userId = req.userId;
   

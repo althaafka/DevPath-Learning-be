@@ -15,11 +15,12 @@ exports.create = async (req, res) => {
     };
 
     const user = await User.create(userData);
-    delete user.password
+    const userResponse = { ...user.toJSON() };
+    delete userResponse.password
     res.status(201).send({
       status: true,
       message: "Success",
-      data: user
+      data: userResponse
     });
   } catch (error) {
     res.status(500).send({
@@ -62,12 +63,13 @@ exports.login = async (req, res) => {
       { expiresIn: '5h' }
     );
 
-    delete user.password
+    const userResponse = { ...user.toJSON() };
+    delete userResponse.password
 
     res.status(200).send({
       status: true,
       message: "Success",
-      data: { token, user }
+      data: { token, userResponse }
     });
   } catch (error) {
     res.status(500).send({
@@ -81,10 +83,15 @@ exports.login = async (req, res) => {
 exports.findAll = async (req, res) => {
   try {
     const users = await User.findAll();
+    const usersResponse = users.map(user => {
+      const userObj = user.toJSON();
+      delete userObj.password;
+      return userObj;
+    });
     res.status(200).send({
       status: true,
       message: "Success",
-      data: users
+      data: usersResponse
     });
   } catch (error) {
     res.status(500).send({
@@ -105,11 +112,12 @@ exports.findOne = async (req, res) => {
         data: null
       });
     }
-    delete user.password
+    const userResponse = { ...user.toJSON() };
+    delete userResponse.password
     res.status(200).send({
       status: true,
       message: "Success",
-      data: user
+      data: userResponse
     });
   } catch (error) {
     res.status(500).send({
