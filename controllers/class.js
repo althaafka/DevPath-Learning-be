@@ -24,3 +24,21 @@ exports.create = async (req, res) => {
         });
     }
 }
+
+// Find all class
+exports.findAll = async (req, res) => {
+    try {
+        const classes = await Class.findAll()
+        res.status(200).send({
+            status: true,
+            message: "Success",
+            data: classes
+        });
+    } catch (error) {
+        res.status(500).send({
+            status: false,
+            message: error.message || "Some error occurred while retrieving classes.",
+            data: null
+        });
+    }
+}

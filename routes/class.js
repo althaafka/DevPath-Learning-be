@@ -5,6 +5,7 @@ const authorize = require('../middlewares/authorize.js');
 const router = express.Router();
 
 router.post("/", authenticate, authorize(['admin', 'teacher']), classes.create);
+router.get("/", authenticate, classes.findAll);
 
 
 module.exports = app => {
