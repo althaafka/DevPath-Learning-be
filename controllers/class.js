@@ -28,17 +28,55 @@ exports.create = async (req, res) => {
 // Find all class
 exports.findAll = async (req, res) => {
     try {
-        const classes = await Class.findAll()
-        res.status(200).send({
-            status: true,
-            message: "Success",
-            data: classes
-        });
+      const classes = await Class.findAll({
+        include: [{
+          model: User,
+          as: 'user',
+          attributes: ['user_id', 'email', 'full_name']
+        }]
+      });
+      res.status(200).send({
+        status: true,
+        message: "Success",
+        data: classes
+      });
     } catch (error) {
-        res.status(500).send({
-            status: false,
-            message: error.message || "Some error occurred while retrieving classes.",
-            data: null
-        });
+      res.status(500).send({
+        status: false,
+        message: error.message || "Some error occurred while retrieving classes",
+        data: null
+      });
     }
-}
+  };
+  
+  // Find class by Id
+  exports.findOne = async (req, res) => {
+    try {
+      const classData = await Class.findByPk(req.params.classId, {
+        include: [{
+          model: User,
+          as: 'user',
+          attributes: ['user_id', 'email', 'full_name']
+        }]
+      });
+      if (!classData) {
+        return res.status(404).send({
+          status: false,
+          message: `Class not found with id ${req.params.classId}`,
+          data: null
+        });
+      }
+      res.status(200).send({
+        status: true,
+        message: "Success",
+        data: classData
+      });
+    } catch (error) {
+      res.status(500).send({
+        status: false,
+        message: error.message || "Some error occurred while retrieving class",
+        data: null
+      });
+    }
+  };
+  

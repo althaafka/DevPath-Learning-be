@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post("/", authenticate, authorize(['admin', 'teacher']), classes.create);
 router.get("/", authenticate, classes.findAll);
+router.get("/:classId", authenticate, classes.findOne);
 
 
 module.exports = app => {
