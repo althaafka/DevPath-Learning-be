@@ -106,3 +106,37 @@ exports.findClassByTeacherId = async (req, res) => {
     });
   }
 }
+
+exports.update = async (req, res) => {
+  try {
+    const classData = await Class.findByPk(req.params.classId);
+    if (!classData) {
+      return res.status(404).send({
+        status: false,
+        message: `Class not found with id ${req.params.classId}`,
+        data: null
+      });
+    }
+
+    if (classData.user_id !== req.userId) {
+      return res.status(403).send({
+        status: false,
+        message: "Unauthorized",
+        data: null
+      });
+    }
+
+    await classData.update(req.body);
+    res.status(200).send({
+      status: true,
+      message: "Success",
+      data: classData
+    });
+  } catch (error) {
+    res.status(500).send({
+      status: false,
+      message: error.message || "Some error occurred while updating the Class.",
+      data: null
+    });
+  }
+}
