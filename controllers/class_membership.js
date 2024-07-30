@@ -61,3 +61,39 @@ exports.addMembership = async (req, res) => {
     });
   }
 };
+
+exports.getClassMembers = async (req, res) => {
+    try {
+        const { class_id } = req.params;
+
+        const classExists = await Class.findByPk(class_id);
+        if (!classExists) {
+            return res.status(404).send({
+                status: false,
+                message: `Class not found with id ${class_id}`,
+                data: null
+            });
+        }
+
+        const members = await ClassMembership.findAll({
+            where: { class_id },
+            include: [{
+                model: User,
+                as: 'user',
+                attributes: ['user_id', 'email', 'full_name']
+            }]
+        });
+
+        res.status(200).send({
+            status: true,
+            message: "Success",
+            data: members
+        });
+    } catch (error) {
+        res.status(500).send({
+            status: false,
+            message: error.message || "Some error occurred while retrieving class members",
+            data: null
+        });
+    }
+}
