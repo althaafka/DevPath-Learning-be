@@ -49,34 +49,34 @@ exports.findAll = async (req, res) => {
     }
   };
   
-  // Find class by Id
-  exports.findOne = async (req, res) => {
-    try {
-      const classData = await Class.findByPk(req.params.classId, {
-        include: [{
-          model: User,
-          as: 'user',
-          attributes: ['user_id', 'email', 'full_name']
-        }]
-      });
-      if (!classData) {
-        return res.status(404).send({
-          status: false,
-          message: `Class not found with id ${req.params.classId}`,
-          data: null
-        });
-      }
-      res.status(200).send({
-        status: true,
-        message: "Success",
-        data: classData
-      });
-    } catch (error) {
-      res.status(500).send({
+// Find class by Id
+exports.findOne = async (req, res) => {
+  try {
+    const classData = await Class.findByPk(req.params.classId, {
+      include: [{
+        model: User,
+        as: 'user',
+        attributes: ['user_id', 'email', 'full_name']
+      }]
+    });
+    if (!classData) {
+      return res.status(404).send({
         status: false,
-        message: error.message || "Some error occurred while retrieving class",
+        message: `Class not found with id ${req.params.classId}`,
         data: null
       });
     }
-  };
+    res.status(200).send({
+      status: true,
+      message: "Success",
+      data: classData
+    });
+  } catch (error) {
+    res.status(500).send({
+      status: false,
+      message: error.message || "Some error occurred while retrieving class",
+      data: null
+    });
+  }
+};
   
