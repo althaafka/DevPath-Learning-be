@@ -97,3 +97,45 @@ exports.getClassMembers = async (req, res) => {
         });
     }
 }
+
+exports.getUserClasses = async (req, res) => {
+    try {
+      const { user_id } = req.params;
+      const userId = user_id || req.userId;
+  
+      // Check if the user exists
+      const userExists = await User.findByPk(userId);
+      if (!userExists) {
+        return res.status(404).send({
+          status: false,
+          message: `User not found with id ${userId}`,
+          data: null
+        });
+      }
+  
+      // Find all classes the user is a member of
+      const userClasses = await ClassMembership.findAll({
+        where: { user_id: userId },
+        include: [
+          {
+            model: Class,
+            as: 'class',
+            attributes: ['class_id', 'title', 'description', 'photo']
+          }
+        ]
+      });
+  
+      res.status(200).send({
+        status: true,
+        message: "Success",
+        data: userClasses
+      });
+    } catch (error) {
+      res.status(500).send({
+        status: false,
+        message: error.message || "Some error occurred while retrieving user classes",
+        data: null
+      });
+    }
+  };
+  
