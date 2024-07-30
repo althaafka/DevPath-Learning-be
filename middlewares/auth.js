@@ -19,6 +19,7 @@ const authenticate = (req, res, next) => {
         data: null
       });
     }
+
     req.userId = decoded.id;
     req.userEmail = decoded.email;
     req.userRole = decoded.role;

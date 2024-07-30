@@ -7,7 +7,7 @@ exports.create = async (req, res) => {
     try {
         const classData = {
             ...req.body,
-            userId: req.userId
+            user_id: req.userId
         };
 
         const newClass = await Class.create(classData);
@@ -80,3 +80,14 @@ exports.findOne = async (req, res) => {
   }
 };
   
+
+// exports.findClassByTeacherId = async (req, res) => {
+//   try {
+//     const userId = req.params.userId;
+//     const classes = await Class.findAll({
+//       where: {
+//         userId
+//       }
+//     });
+//   }
+// }
