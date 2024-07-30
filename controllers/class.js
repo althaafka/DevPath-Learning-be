@@ -81,13 +81,28 @@ exports.findOne = async (req, res) => {
 };
   
 
-// exports.findClassByTeacherId = async (req, res) => {
-//   try {
-//     const userId = req.params.userId;
-//     const classes = await Class.findAll({
-//       where: {
-//         userId
-//       }
-//     });
-//   }
-// }
+exports.findClassByTeacherId = async (req, res) => {
+  try {
+    const teacherId = req.params.userId;
+    const classes = await Class.findAll({
+      where: { user_id: teacherId},
+      include: [{
+        model: User,
+        as: 'user',
+        attributes: ['user_id', 'email', 'full_name']
+      }]
+    });
+
+    res.status(200).send({
+      status: true,
+      message: "Success",
+      data: classes
+    });
+  } catch (error) {
+    res.status(500).send({
+      status: false,
+      message: error.message || "Some error occurred while retrieving classes",
+      data: null
+    });
+  }
+}
