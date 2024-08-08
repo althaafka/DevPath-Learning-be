@@ -103,7 +103,6 @@ exports.getUserClasses = async (req, res) => {
       const { user_id } = req.params;
       const userId = user_id || req.userId;
   
-      // Check if the user exists
       const userExists = await User.findByPk(userId);
       if (!userExists) {
         return res.status(404).send({
@@ -113,7 +112,6 @@ exports.getUserClasses = async (req, res) => {
         });
       }
   
-      // Find all classes the user is a member of
       const userClasses = await ClassMembership.findAll({
         where: { user_id: userId },
         include: [
