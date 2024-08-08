@@ -139,7 +139,7 @@ exports.update = async (req, res) => {
     }
 
     const [updated] = await User.update(updateData, {
-      where: { id: userId }
+      where: { user_id: userId }
     });
 
     if (!updated) {
