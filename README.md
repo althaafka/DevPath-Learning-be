@@ -8,8 +8,9 @@ This is the backend for the DevPath Learning platform, built with Node.js, Expre
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Database Setup](#database-setup)
+- [Environment Variables](#environment-variables)
 - [Running the Application](#running-the-application)
-- [License](#license)
+- [Documentation](#documentation)
 
 ## Prerequisites
 
@@ -73,3 +74,8 @@ Ensure that you have the following software installed:
 2. **Access the API:**
 
    The server will start on `http://localhost:3000` by default. You can test the API endpoints using tools like Postman or Curl.
+
+
+## Documentation
+
+For more detailed documentation, please refer to the [DevPath Learning Backend Documentation](https://docs.google.com/document/d/1mxraEra432O3MUNRKLnMH_70aADrE1Nb5_v4M94PuX8/edit?usp=sharing).
