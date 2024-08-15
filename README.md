@@ -68,7 +68,7 @@ Ensure that you have the following software installed:
    Run the following command in the project root directory:
 
    ```bash
-   node main.js
+   node app.js
    ```
 
 2. **Access the API:**
