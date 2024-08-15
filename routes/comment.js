@@ -1,6 +1,7 @@
 const express = require('express');
 const comments = require("../controllers/comment.js");
 const authenticate = require('../middlewares/auth.js');
+const authorize = require('../middlewares/authorize.js');
 const router = express.Router();
 
 router.post("/:classId", authenticate, comments.create);
