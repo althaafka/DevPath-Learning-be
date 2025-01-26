@@ -10,7 +10,7 @@ router.get("/:classId", authenticate, classes.findOne);
 router.get("/teacher/:userId", authenticate, classes.findClassByTeacherId);
 router.put("/:classId", authenticate, authorize(['admin', 'teacher']), classes.update);
 router.delete("/:classId", authenticate, authorize(['admin', 'teacher']), classes.delete);
-
+console.log("tes")
 
 module.exports = app => {
   app.use('/class', router);
